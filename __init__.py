@@ -12,6 +12,7 @@ from aqt.qt import *
 # We're going to add a menu item below. First we want to create a function to
 # be called when the menu item is activated.
 
+
 config = mw.addonManager.getConfig(__name__)
 BEEMINDER_USERNAME = config["beeminder_username"]
 BEEMINDER_PERSONAL_AUTH_TOKEN = config["beeminder_personal_auth_token"]
