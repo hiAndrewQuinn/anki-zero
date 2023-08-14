@@ -1,7 +1,8 @@
-import requests, json
+import requests, json, datetime
 
 # import the main window object (mw) from aqt
 from aqt import mw
+from aqt import gui_hooks
 
 # import the "show info" tool from utils.py
 from aqt.utils import showInfo, qconnect
@@ -23,14 +24,18 @@ def get_due_cards() -> int:
     return len(due_cards)
 
 
-def post_to_beeminder(auth, user, goal="anki-zero") -> str:
+def post_to_beeminder(
+    auth=BEEMINDER_PERSONAL_AUTH_TOKEN, user=BEEMINDER_USERNAME, goal="anki-zero"
+) -> str:
     due_cards = get_due_cards()
     url = f"https://www.beeminder.com/api/v1/users/{user}/goals/{goal}/datapoints.json"
 
     data = {
         "auth_token": auth,
         "value": due_cards,
-        "comment": "Auto-generated from hiAndrewQuinn's Anki Zero addon.",
+        "comment": "Anki Zero - {} - due cards: {}".format(
+            datetime.datetime.now(), due_cards
+        ),
     }
 
     response = requests.post(url, data=data)
@@ -55,3 +60,12 @@ action = QAction("Manually sync Anki Zero", mw)
 qconnect(action.triggered, testFunction)
 # and add it to the tools menu
 mw.form.menuTools.addAction(action)
+
+# Run post_to_beeminder on Anki startup.
+gui_hooks.profile_did_open.append(post_to_beeminder)
+
+# Run post_to_beeminder on Anki sync.
+gui_hooks.sync_did_finish.append(post_to_beeminder)
+
+# Run post_to_beeminder on Anki close.
+gui_hooks.profile_will_close.append(post_to_beeminder)
