@@ -5,6 +5,10 @@ on the most important part of the whole program. Not anymore! **Anki Zero** is a
 simple plugin to integrate Anki with Beeminder, with one goal in mind: **If you
 don't complete your "Due" and "Learning" columns, you get charged a fine.**
 
+> ✔️ Anki Zero _does not_ require a Beeminder Premium subscription to use! I thought it might,
+[but apparently "custom API integration" is provided even for the free edition](https://www.beeminder.com/premium).
+Thanks, Beeminder!
+
 ## Getting Started
 
 Follow these simple steps to start using the Anki to Beeminder Sync Plugin:
