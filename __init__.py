@@ -38,9 +38,12 @@ def post_to_beeminder(
         ),
     }
 
-    response = requests.post(url, data=data)
-
-    return response.text
+    try:
+        response = requests.post(url, data=data)
+        return response.text
+    except requests.exceptions.RequestException as e:
+        showInfo("Anki Zero error!\n\n%s" % e)
+        return None
 
 
 def testFunction() -> None:
